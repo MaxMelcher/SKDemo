@@ -56,8 +56,3 @@ public class BackgroundService : IHostedService, IDisposable
         _timer?.Dispose();
     }
 }
-
-public class SKDemoConfig
-{
-    public string PluginFolder { get; set; } = "G:\\Git\\SKDemo\\Plugins";
-}

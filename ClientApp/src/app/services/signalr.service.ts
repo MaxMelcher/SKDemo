@@ -9,6 +9,8 @@ import { Message } from '../home/home.component';
 export class SignalrService {
   data: any;
   newMessageReceived: Subject<Message> = new Subject<Message>();
+  pluginsReceived: Subject<string[]> = new Subject<string[]>();
+  planReceived: Subject<string> = new Subject<string>();
 
   constructor() { }
 
@@ -21,6 +23,7 @@ export class SignalrService {
       })
       .withAutomaticReconnect()
       .build();
+
     this.hubConnection
       .start()
       .then(() => console.log('Connection started'))
@@ -28,10 +31,6 @@ export class SignalrService {
   }
 
   public startListeners = () => {
-    this.hubConnection.on('pluginChanged', (data) => {
-      this.data = data;
-      console.log(data);
-    });
 
     this.hubConnection.on('NewAnswer', (data: string) => {
       console.log(data);
@@ -40,10 +39,23 @@ export class SignalrService {
         user: "bot"
       });
     });
+
+    this.hubConnection.on('PluginsChanged', (data: string[]) => {
+      this.pluginsReceived.next(data);
+    });
+
+    this.hubConnection.on('NewPlan', (data: string) => {
+      this.planReceived.next(data);
+    });
   }
 
   public newMessage = (message: string, prompt: string) => {
     return this.hubConnection.invoke('NewMessage', message, prompt)
+      .catch(err => console.error(err));
+  }
+
+  public newPlan = (message: string, prompt: string) => {
+    return this.hubConnection.invoke('NewPlan', message, prompt)
       .catch(err => console.error(err));
   }
 }

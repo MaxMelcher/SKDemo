@@ -26,11 +26,11 @@ public class PluginHub : Hub
         await Clients.Caller.SendAsync("NewAnswer", reply);
     }
 
-    public async Task Plan(string message, string prompt)
+    public async Task NewPlan(string message, string prompt)
     {
         //TODO run the AI on the message
         SKGenerator generator = new SKGenerator(_config);
-        string reply = await generator.Plan(message, Clients.Caller);
+        string reply = await generator.Plan(message, prompt, Clients.Caller);
         await Clients.Caller.SendAsync("NewAnswer", reply);
     }
 }

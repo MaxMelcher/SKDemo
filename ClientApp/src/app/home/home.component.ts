@@ -4,6 +4,7 @@ import { SignalrService } from '../services/signalr.service';
 export interface Message {
   text: string;
   user: string;
+  plan? : boolean;
 }
 
 @Component({
@@ -16,12 +17,18 @@ export class HomeComponent {
 
   constructor(private signalRService: SignalrService) {
 
+    //subscribe to new messages
     this.signalRService.newMessageReceived.subscribe((message: Message) => {
       this.messages.push(message);
       
       setTimeout(() => {
         this.chat.nativeElement.scrollTop = this.chat.nativeElement.scrollHeight;
       }, 100);
+    });
+
+    //subscribe to plugin changes
+    this.signalRService.pluginsReceived.subscribe((plugins: string[]) => {
+      this.plugins = plugins;
     });
 
   }
@@ -32,6 +39,7 @@ export class HomeComponent {
   prompt = "{{$input}}";
 
   messages: Message[] = [];
+  plugins: string[] = [];
   thinking = false;
 
   sendMessage() {
@@ -43,6 +51,20 @@ export class HomeComponent {
     }, 100);
 
     this.signalRService.newMessage(this.input, this.prompt).then(() => {
+      this.thinking = false;
+
+    });
+  }
+
+  plan() {
+    this.messages.push({ text: this.input, user: "me", plan: true });
+    this.thinking = true;
+
+    setTimeout(() => {
+      this.chat.nativeElement.scrollTop = this.chat.nativeElement.scrollHeight;
+    }, 100);
+
+    this.signalRService.newPlan(this.input, this.prompt).then(() => {
       this.thinking = false;
 
     });

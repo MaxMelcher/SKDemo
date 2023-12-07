@@ -47,8 +47,7 @@ public class SKGenerator
 
         var plannerConfig = new StepwisePlannerConfig
         {
-
-            MaxIterations = 10,
+            MaxIterations = 15,
             SemanticMemoryConfig = new()
             {
                 RelevancyThreshold = 0.5,

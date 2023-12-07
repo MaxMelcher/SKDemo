@@ -17,7 +17,6 @@
     <PackageReference Include="Microsoft.SemanticKernel.Connectors.AI.OpenAI" Version="1.0.0-beta8" />
     <PackageReference Include="Microsoft.SemanticKernel.Connectors.Memory.Qdrant" Version="1.0.0-beta8" />
     <PackageReference Include="Microsoft.SemanticKernel.Planners.Core" Version="1.0.0-beta8" />
-    <PackageReference Include="Microsoft.SemanticMemory.Core" Version="0.4.231023.1-preview" />
   </ItemGroup>
 
   <ItemGroup>

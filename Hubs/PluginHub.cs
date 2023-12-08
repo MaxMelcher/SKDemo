@@ -33,4 +33,10 @@ public class PluginHub : Hub
         string reply = await generator.Plan(message, prompt, Clients.Caller);
         await Clients.Caller.SendAsync("NewAnswer", reply);
     }
+
+    public async Task GetPlugins()
+    {
+        var directories = Directory.GetDirectories(Path.Combine(_config.PluginFolder, "SKDemo")).Select(d => Path.GetFileName(d)).ToArray();
+        await Clients.Caller.SendAsync("PluginsChanged", directories);
+    }
 }

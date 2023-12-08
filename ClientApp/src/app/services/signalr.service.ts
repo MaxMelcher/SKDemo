@@ -58,4 +58,9 @@ export class SignalrService {
     return this.hubConnection.invoke('NewPlan', message, prompt)
       .catch(err => console.error(err));
   }
+
+  public getPlugins = () => {
+    return this.hubConnection.invoke('GetPlugins')
+      .catch(err => console.error(err));
+  }
 }

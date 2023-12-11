@@ -19,6 +19,9 @@ export class HomeComponent implements OnInit {
 
     //subscribe to new messages
     this.signalRService.newMessageReceived.subscribe((message: Message) => {
+
+      message.text = message.text.replace(/(?:\r\n|\r|\n)/g, '<br>');
+
       this.messages.push(message);
 
       setTimeout(() => {
@@ -32,9 +35,7 @@ export class HomeComponent implements OnInit {
     });
   }
 
-  input = `1st Law of Thermodynamics - Energy cannot be created or destroyed.
-  2nd Law of Thermodynamics - For a spontaneous process, the entropy of the universe increases.
-  3rd Law of Thermodynamics - A perfect crystal at zero Kelvin has zero entropy.`;
+  input = `What are the three rules of the Bavarian Reinheitsgebot? Provide a list.`;
   prompt = "{{$input}}";
 
   messages: Message[] = [];
@@ -85,6 +86,12 @@ export class HomeComponent implements OnInit {
   }
   prompt3(){
 
+  }
+
+  copy()
+  {
+    this.input = this.messages[this.messages.length - 1].text;
+    this.input = this.input.replace(/<br>/g, '\n');
   }
 
 }

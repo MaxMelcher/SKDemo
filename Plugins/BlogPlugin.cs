@@ -4,7 +4,7 @@ using Microsoft.SemanticKernel;
 public class BlogPlugin
 {
 
-    [SKFunction, Description("Get the blog posts")]
+    [KernelFunction, Description("Get the blog posts")]
     public async Task<List<BlogPost>> GetBlogPosts()
     {
         //get the blog posts from https://melcher.dev/feed/feed.json

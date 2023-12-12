@@ -8,10 +8,10 @@ public class BackgroundService : IHostedService, IDisposable
     private FileSystemWatcher _fsw;
     private readonly IHubContext<PluginHub> _pluginHub;
 
-    public BackgroundService(ILogger<BackgroundService> logger, IOptions<SKDemoConfig> config, IHubContext<PluginHub> pluginHub)
+    public BackgroundService(ILogger<BackgroundService> logger, SKDemoConfig config, IHubContext<PluginHub> pluginHub)
     {
         _logger = logger;
-        _config = config.Value;
+        _config = config;
         _pluginHub = pluginHub;
         _fsw = new FileSystemWatcher(_config.PluginFolder, "*.*");
     }

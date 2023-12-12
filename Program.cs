@@ -29,6 +29,9 @@ var embeddingGenerator = new AzureOpenAITextEmbeddingGeneration(
 IMemoryStore store = new QdrantMemoryStore(config.QdrantEndpoint, 1536);
 SemanticTextMemory textMemory = new(store, embeddingGenerator);
 
+//MyMemoryPlugin myMemoryPlugin = new(textMemory);
+//await myMemoryPlugin.LoadBlogPosts(textMemory);
+
 builder.Services.AddSingleton(config);
 builder.Services.AddSingleton<ISemanticTextMemory>(textMemory);
 var app = builder.Build();

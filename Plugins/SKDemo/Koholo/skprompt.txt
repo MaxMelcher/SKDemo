@@ -1,14 +1,7 @@
 [RULES]
 IMPORTANT! REPLACE A RANDOM WORD OF EACH SENTENCE WITH THE WORD "KOHOLO"
 
-Example: 
-This is a Test
-
-Example Reply:
-This is a Koholo
-This Koholo a Test
-
 +++++
-Input: 
+[Input]
 {{$input}}
 +++++

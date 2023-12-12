@@ -73,10 +73,6 @@ public class SKGenerator
         //attach memory
         var embeddingGenerator = GetEmbeddingGenerator();
 
-
-        var myPlugins = new MyPlugins();
-        kernel.ImportPluginFromObject(myPlugins);
-
         if (useMemory)
         {
             IMemoryStore store = new QdrantMemoryStore(_config.QdrantEndpoint, 1536, loggerFactory: _loggerFactory);
@@ -87,9 +83,12 @@ public class SKGenerator
 
         if (usePlugins)
         {
-            //load the plugins
-            var f2 = kernel.ImportPluginFromPromptDirectory(Path.Combine(_config.PluginFolder, "SKDemo"));
+            var myPlugins = new MyPlugins();
+            kernel.ImportPluginFromObject(myPlugins);
+
         }
+        //load the plugins
+        var f2 = kernel.ImportPluginFromPromptDirectory(Path.Combine(_config.PluginFolder, "SKDemo"));
 
         FunctionCallingStepwisePlannerConfig config = new FunctionCallingStepwisePlannerConfig();
 
@@ -100,6 +99,11 @@ public class SKGenerator
 
         var plannerResult = await planner.ExecuteAsync(kernel, promptMessage);
         var response = plannerResult.FinalAnswer;
+
+        foreach (var step in plannerResult.ChatHistory)
+        {
+            await caller.SendAsync("Log", step);
+        }
 
         await caller.SendAsync("NewAnswer", response);
 

@@ -66,6 +66,7 @@ export class HomeComponent implements OnInit {
   sendMessage() {
     this.messages.push({ text: this.input, user: "me" });
     this.thinking = true;
+    this.plans = [];
 
     setTimeout(() => {
       this.chat.nativeElement.scrollTop = this.chat.nativeElement.scrollHeight;
@@ -100,7 +101,7 @@ export class HomeComponent implements OnInit {
     this.prompt = "[SUMMARIZATION RULES]\nDONT WASTE WORDS\nUSE SHORT, CLEAR, COMPLETE SENTENCES.\nRETURN SENTENCES IN BULLET POINTS OR DASHES.\nUSE ACTIVE VOICE.\nMAXIMIZE DETAIL, MEANING\nFOCUS ON THE CONTENT\n\n[BANNED PHRASES]\nThis article\nThis document\nThis page\nThis material\n[END LIST]\n\nSummarize:\nHello how are you?\n+++++\nHello\n\nSummarize this\n{{$input}}\n+++++";
   }
   prompt2() {
-    this.prompt = "Summarize, generate an email. Apply the rules of Koholo to the email:\n{{$input}}";
+    this.prompt = "Actions:\n1. Summarize\n2. Generate an email.\n3. Apply the rules of Koholo to the email.\n4.Return the final email.\n\nInput:\n{{$input}}";
     this.usePlugins = true;
   }
   prompt3() {

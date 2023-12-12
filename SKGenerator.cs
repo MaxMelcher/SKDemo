@@ -23,7 +23,7 @@ public class SKGenerator
         var builder = new KernelBuilder();
         builder.AddAzureOpenAIChatCompletion(
          _config.OpenDeployment,                   // Azure OpenAI Deployment Name
-         _config.OpenAIModel,                      // Azure OpenAI Endpoint
+         _config.OpenAIModel,                      // Azure OpenAI Model
          _config.OpenAIEndpoint,                   // Azure OpenAI Endpoint
          _config.OpenAIKey);                       // Azure OpenAI Key
         builder.Services.AddSingleton<ILoggerFactory>(_loggerFactory);

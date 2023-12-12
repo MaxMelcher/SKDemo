@@ -47,15 +47,19 @@ export class SignalrService {
     this.hubConnection.on('NewPlan', (data: string) => {
       this.planReceived.next(data);
     });
+
+    this.hubConnection.on('Log', (data: string) => {
+      console.log(data);
+    });
   }
 
-  public newMessage = (message: string, prompt: string) => {
-    return this.hubConnection.invoke('NewMessage', message, prompt)
+  public newMessage = (message: string, prompt: string, usePlugins: boolean, useMemory: boolean) => {
+    return this.hubConnection.invoke('NewMessage', message, prompt, usePlugins, useMemory)
       .catch(err => console.error(err));
   }
 
-  public newPlan = (message: string, prompt: string) => {
-    return this.hubConnection.invoke('NewPlan', message, prompt)
+  public newPlan = (message: string, prompt: string, usePlugins: boolean, useMemory: boolean) => {
+    return this.hubConnection.invoke('NewPlan', message, prompt, usePlugins, useMemory)
       .catch(err => console.error(err));
   }
 

@@ -1,3 +1,7 @@
+using Microsoft.SemanticKernel.Connectors.AI.OpenAI.TextEmbedding;
+using Microsoft.SemanticKernel.Connectors.Memory.Qdrant;
+using Microsoft.SemanticKernel.Memory;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -15,8 +19,18 @@ builder.Services.AddHostedService<BackgroundService>();
 
 SKDemoConfig config = new SKDemoConfig();
 builder.Configuration.GetSection("SKDemoConfig").Bind(config);
-builder.Services.AddSingleton(config);
 
+
+var embeddingGenerator = new AzureOpenAITextEmbeddingGeneration(
+            modelId: config.OpenAIEmbeddingModel, 
+            deploymentName: config.OpenAIEmbeddingModel, 
+            endpoint: config.OpenAIEndpoint, 
+            apiKey: config.OpenAIKey);
+IMemoryStore store = new QdrantMemoryStore(config.QdrantEndpoint, 1536);
+SemanticTextMemory textMemory = new(store, embeddingGenerator);
+
+builder.Services.AddSingleton(config);
+builder.Services.AddSingleton<ISemanticTextMemory>(textMemory);
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

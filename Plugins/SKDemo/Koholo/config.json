@@ -1,6 +1,6 @@
 {
     "schema": 1,
-    "description": "Koholo",
+    "description": "Function to apply the rules of Koholo",
     "execution_settings": [
       {
         "max_tokens": 512,
@@ -13,7 +13,7 @@
     "input_variables": [
       {
         "name": "input",
-        "description": "Text to summarize",
+        "description": "Text that will be used to apply the rules of Koholo",
         "default": ""
       }
     ]

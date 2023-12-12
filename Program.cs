@@ -15,11 +15,12 @@ builder.Services.AddCors(options =>
 
 builder.Services.AddControllersWithViews();
 builder.Services.AddSignalR();
-builder.Services.AddHostedService<BackgroundService>();
 
 SKDemoConfig config = new SKDemoConfig();
 builder.Configuration.GetSection("SKDemoConfig").Bind(config);
+builder.Services.AddSingleton(config);
 
+builder.Services.AddHostedService<BackgroundService>();
 
 var embeddingGenerator = new AzureOpenAITextEmbeddingGeneration(
             modelId: config.OpenAIEmbeddingModel, 
@@ -29,7 +30,6 @@ var embeddingGenerator = new AzureOpenAITextEmbeddingGeneration(
 IMemoryStore store = new QdrantMemoryStore(config.QdrantEndpoint, 1536);
 SemanticTextMemory textMemory = new(store, embeddingGenerator);
 
-builder.Services.AddSingleton(config);
 builder.Services.AddSingleton<ISemanticTextMemory>(textMemory);
 var app = builder.Build();
 
